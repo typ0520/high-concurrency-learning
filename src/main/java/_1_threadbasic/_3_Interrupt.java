@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class _3_Interrupt {
     @Test
-    public void interrupt_isInterrupted() throws InterruptedException {
+    public void test_interrupt_isInterrupted() throws InterruptedException {
         Thread t = new Thread(() -> {
             System.out.println(Thread.currentThread().getName() + " running");
             for (;;) {
@@ -29,7 +29,7 @@ public class _3_Interrupt {
     }
 
     @Test
-    public void interrupt_Thread_interrupted() throws InterruptedException {
+    public void test_interrupt_Thread_interrupted() throws InterruptedException {
         Thread t = new Thread(() -> {
             System.out.println(Thread.currentThread().getName() + " running");
             for (;;) {

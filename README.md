@@ -43,3 +43,35 @@ System.out.println("thread state: " + thread.getState());
 ![](./images/thread-state.png)
 
 > 参考 https://cloud.tencent.com/developer/article/1724049?from=15425
+
+# LockSupport.park LockSupport.unpark(&thread)
+
+线程的挂起与唤醒
+
+```aidl
+@Test
+public void testLockSupport() throws InterruptedException {
+    Thread t1 = new Thread(() -> {
+        System.out.println(Thread.currentThread().getName() + " start");
+        LockSupport.park(10_1000);
+        System.out.println(Thread.currentThread().getName() + " end");
+    });
+    t1.setName("test thread1");
+    t1.start();
+    Thread.sleep(1_000L);
+    LockSupport.unpark(t1);
+    t1.join();
+}
+```
+
+底层使用Futex
+
+```
+LockSupport.park
+futex(0x7f765f3389d0, FUTEX_WAIT, 1618, NULL) = 0
+
+LockSupport.unpark(&thread)
+futex(0x7f765eceb0d0, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+```
+
+> 原理参考 https://blog.csdn.net/weixin_43767015/article/details/107207643
