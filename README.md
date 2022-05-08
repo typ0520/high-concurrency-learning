@@ -118,11 +118,14 @@ public void run() {
 
 - 有序性
 
+  volatile
   CPU执行指令时存在乱序的可能，存在的条件如下:
   - as-if-serial
   - 不影响单线程的最终一致性
 
 - 原子性
+
+  CAS、synchronized
 
 # 缓存行
 
@@ -235,4 +238,11 @@ Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 
 # volatile
 
-# synchronized
+# 锁
+- 悲观锁/乐观锁
+- 公平锁/非公平锁
+- synchronized/CAS/JUL
+
+ReentrantLock底层用的是AQS
+
+# AQS
