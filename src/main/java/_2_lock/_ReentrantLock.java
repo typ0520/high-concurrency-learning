@@ -1,4 +1,4 @@
-package _1_threadbasic;
+package _2_lock;
 
 import org.junit.jupiter.api.Test;
 

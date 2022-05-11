@@ -6,7 +6,7 @@ import org.openjdk.jol.info.ClassLayout;
 /**
  * @author tong
  */
-public class ClassMemorySample {
+public class _openjdk_jol {
     private static class T {
         int m = 0;
         String str = "ss";

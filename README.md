@@ -216,7 +216,7 @@ Instance size: 24 bytes
 Space losses: 4 bytes internal + 0 bytes external = 4 bytes total
 
 -----------------------------------
-_1_threadbasic.ClassMemorySample$T object internals:
+_1_threadbasic._openjdk_jol$T object internals:
 OFF  SZ               TYPE DESCRIPTION               VALUE
   0   8                    (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
   8   4                    (object header: class)    0xf802ca13
@@ -241,8 +241,14 @@ Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 # 锁
 - 悲观锁/乐观锁
 - 公平锁/非公平锁
-- synchronized/CAS/JUL
+- synchronized/CAS
 
 ReentrantLock底层用的是AQS
 
 # AQS
+
+# 线程池
+
+- ThreadPoolExecutor
+
+- ForkJoinPoll  
