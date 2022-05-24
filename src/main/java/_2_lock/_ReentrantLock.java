@@ -2,6 +2,8 @@ package _2_lock;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -155,5 +157,60 @@ public class _ReentrantLock {
                 lock.unlock();
             }
         }
+    }
+
+    @Test
+    public void test3() throws InterruptedException {
+        Queue<String> queue = new LinkedList<String>();
+        ReentrantLock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+        int msgSize = 10;
+        Thread t1 = new Thread(() -> {
+            int total = 0;
+            for (;;) {
+                try {
+                    String s = queue.poll();
+                    if (s == null) {
+                        if (++total == msgSize) {
+                            break;
+                        }
+                        try {
+                            lock.lock();
+                            System.out.println("t1 not get s await");
+                            condition.await();
+                        } finally {
+                            lock.unlock();
+                        }
+                    } else {
+                        System.out.println("t1 get s: " + s);
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        t1.setName("test thread1");
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < msgSize; i++) {
+                try {
+                    Thread.sleep(2000L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    lock.lock();
+                    System.out.println("t2 get lock put s: " + i);
+                    queue.offer("from t1: " + i);
+                    condition.signalAll();
+                } finally {
+                    lock.unlock();
+                }
+            }
+        });
+        t2.setName("test thread2");
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
     }
 }
